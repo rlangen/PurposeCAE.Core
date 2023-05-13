@@ -24,6 +24,7 @@ internal class SerializableGraphOrganizer<T, U> where T : IEquatable<T>
     public void Serialize(Stream stream)
     {
         JsonSerializer.Serialize(stream, GraphData, _serializationOptions.JsonSerializerOptions);
+        stream.Flush();
     }
 
     /// <summary>
@@ -40,7 +41,7 @@ internal class SerializableGraphOrganizer<T, U> where T : IEquatable<T>
                 return node;
 
         // Node does not exist, create new node
-        SerializableNode<T, U> newNode = new(GraphData.UidCounter++, data);
+        SerializableNode<T, U> newNode = new(GraphData.NextFreeUid++, data);
         GraphData.Nodes.Add(newNode);
 
         return newNode;

@@ -70,6 +70,11 @@ internal class Graph<T, U> : IGraph<T, U> where T : IEquatable<T>
         return newEdge;
     }
 
+    public void Serialize(Stream stream)
+    {
+        _graph.Serialize(stream);
+    }
+
     private readonly SerializableGraphOrganizer<T, U> _graph;
     private readonly IGraphComponentRegistry<T, U> _graphComponentRegistry;
 
