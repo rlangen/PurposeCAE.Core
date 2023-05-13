@@ -1,0 +1,81 @@
+@startuml structure
+
+~interface ISerializableGraph<T,U>{
+    Data: SerializableGraphData
+    AddNode(node: T): SerializableNode
+    AddEdge(source, target, edgeData: U)
+}
+ISerializableGraph *-- SerializableGraphData
+
+~interface ISerializableGraphFactory{
+    
+}
+ISerializableGraph <--up ISerializableGraphFactory
+
+~class SerializableGraph{
+
+}
+ISerializableGraph <|--right SerializableGraph
+
+~class SerializableGraphData<T,U>{
+    Nodes: IEnumerable<ISerializableNode<T,U>>
+}
+SerializableGraphData *-- SerializableNode
+
+~class SerializableNode<T,U>{
+    Uid: int
+    Data: T
+    Children: IEnumerable<ISerializableEdge<U>>
+}
+SerializableNode *-- SerializableEdge
+
+~class SerializableEdge<U>{
+    TargetNodeUid: int
+    EdgeData: U
+}
+
++interface IGraph<T,U>{
+    Nodes: INode
+    Roots: IEnumerable<INode<T,U>
+    AddNode(node: T): INode<T,U>
+    AddEdge(INode<T,U> source, INode<T,U> target, U edgeInformation): IEdge<U>
+}
+IGraph *-- INode
+
++interface INode<T,U>{
+    Data: T
+    Parents: IEnumerable<IEdge<U>>
+    Children: IEnumerable<IEdge<U>>
+}
+INode *-- IEdge
+
++interface IEdge<U>{
+    EdgeData: U
+    TargetNode: INode<T,U>
+}
+IEdge *-- INode
+
+~class Graph<T,U>{
+    - SerializableGraphData: SerializableGraphData
+    Graph(serializedGraph: SerializableGraphData)
+}
+IGraph <|--right Graph
+Graph *--right ISerializableGraph
+
+~class Node<T,U>{
+    - SerializableNode: SerializableNode
+}
+INode <|--right Node
+Node *--right SerializableNode
+
+~class Edge<T,U>{
+    - SerializableEdge: SerializableEdge
+}
+IEdge <|--right Edge
+Edge *--right SerializableEdge
+
++interface IGraphFactory{
+    Create<T,U>(): IGraph
+    Deserialize<T,U>(file: FileInfo): IGraph
+}
+IGraph <--up IGraphFactory
