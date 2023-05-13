@@ -7,6 +7,12 @@ internal class SerializableGraphOrganizer<T, U> where T : IEquatable<T>
 {
     private readonly ISerializationOptions _serializationOptions;
 
+    public SerializableGraphOrganizer(ISerializationOptions serializationOptions)
+    {
+        _serializationOptions = serializationOptions;
+        GraphData = new();
+    }
+
     public SerializableGraphOrganizer(ISerializationOptions serializationOptions, SerializableGraphData<T, U> graphData)
     {
         _serializationOptions = serializationOptions;

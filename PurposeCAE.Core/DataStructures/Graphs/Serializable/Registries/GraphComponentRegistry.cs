@@ -6,13 +6,17 @@ internal class GraphComponentRegistry<T, U> : IGraphComponentRegistry<T, U> wher
 {
     public INode<T, U> CreateNode(SerializableGraphData<T, U> graphData, SerializableNode<T, U> node)
     {
-        if (_nodeStorage.TryGetValue(node.Data, out INode<T, U>? foundNode))
-            return foundNode ?? throw new NullReferenceException($"A node was returnedd by the '{nameof(_nodeStorage)}' which is null.");
+        if (NodeStorage.TryGetValue(node.Data, out INode<T, U>? foundNode))
+            return foundNode ?? throw new NullReferenceException($"A node was returnedd by the '{nameof(NodeStorage)}' which is null.");
 
-        return new Node<T, U>(this, graphData, node);
+        Node<T, U> newNode = new(this, graphData, node);
+
+        NodeStorage.Add(node.Data, newNode);
+
+        return newNode;
     }
 
-    private readonly IDictionary<T, INode<T, U>> _nodeStorage = new Dictionary<T, INode<T, U>>();
+    public IDictionary<T, INode<T, U>> NodeStorage { get; } = new Dictionary<T, INode<T, U>>();
 
 
     public SerializableNode<T, U> GetNode(int uid, SerializableGraphData<T, U> graphData)
