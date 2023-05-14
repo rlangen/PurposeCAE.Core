@@ -1,9 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <ProjectName>$(AssemblyName)</ProjectName>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>$(AssemblyName)</Title>
+    <Version>$(VersionPrefix)</Version>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <VersionSuffix>rc</VersionSuffix>
+    <Description>A library for basic functionalities.</Description>
+    <RepositoryUrl>https://github.com/rlangen/PurposeCAE.Core</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/rlangen/PurposeCAE.Core</PackageProjectUrl>
+    <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+    <FileVersion>$(VersionPrefix)</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
