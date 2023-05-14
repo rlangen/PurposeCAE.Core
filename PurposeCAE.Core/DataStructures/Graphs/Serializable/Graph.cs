@@ -7,10 +7,10 @@ namespace PurposeCAE.Core.DataStructures.Graphs.Serializable;
 
 internal class Graph<T, U> : IGraph<T, U> where T : IEquatable<T>
 {
-    public Graph(IGraphComponentRegistryFactory graphComponentRegistryFactory, ISerializationOptions serializationOptions)
+    public Graph(IGraphComponentRegistryFactory graphComponentRegistryFactory)
     {
         _graphComponentRegistry = graphComponentRegistryFactory.Create<T, U>();
-        _graph = new(serializationOptions);
+        _graph = new();
     }
     public Graph(IGraphComponentRegistryFactory graphComponentRegistryFactory, SerializableGraphOrganizer<T, U> graph)
     {
@@ -70,9 +70,9 @@ internal class Graph<T, U> : IGraph<T, U> where T : IEquatable<T>
         return newEdge;
     }
 
-    public void Serialize(Stream stream)
+    public void Serialize(Stream stream, IJsonSerializationSettings serializationSettings)
     {
-        _graph.Serialize(stream);
+        _graph.Serialize(stream, serializationSettings);
     }
 
     private readonly SerializableGraphOrganizer<T, U> _graph;

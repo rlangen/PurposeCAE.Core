@@ -1,12 +1,13 @@
-﻿// Ignore Spelling: Serializer Json Serializable Uid
+﻿using System.Text.Json.Serialization;
 
 namespace PurposeCAE.Core.DataStructures.Graphs.Serializable.Data;
 
 internal class SerializableEdge<U>
 {
-    public SerializableEdge(U edgeInformation, int targetUid)
+    [JsonConstructor]
+    public SerializableEdge(U edgeData, int targetUid)
     {
-        EdgeData = edgeInformation;
+        EdgeData = edgeData;
         TargetUid = targetUid;
     }
     public U EdgeData { get; set; }

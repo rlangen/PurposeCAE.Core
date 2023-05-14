@@ -5,25 +5,21 @@ namespace PurposeCAE.Core.DataStructures.Graphs.Serializable.Data;
 
 internal class SerializableGraphOrganizer<T, U> where T : IEquatable<T>
 {
-    private readonly ISerializationOptions _serializationOptions;
-
-    public SerializableGraphOrganizer(ISerializationOptions serializationOptions)
+    public SerializableGraphOrganizer()
     {
-        _serializationOptions = serializationOptions;
         GraphData = new();
     }
 
-    public SerializableGraphOrganizer(ISerializationOptions serializationOptions, SerializableGraphData<T, U> graphData)
+    public SerializableGraphOrganizer(SerializableGraphData<T, U> graphData)
     {
-        _serializationOptions = serializationOptions;
         GraphData = graphData;
     }
 
     public SerializableGraphData<T, U> GraphData { get; init; }
 
-    public void Serialize(Stream stream)
+    public void Serialize(Stream stream, IJsonSerializationSettings serializationSettings)
     {
-        JsonSerializer.Serialize(stream, GraphData, _serializationOptions.JsonSerializerOptions);
+        JsonSerializer.Serialize(stream, GraphData, serializationSettings.JsonSerializerOptions);
         stream.Flush();
     }
 
