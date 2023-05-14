@@ -79,10 +79,6 @@ internal class Graph<T, U> : IGraph<T, U> where T : IEquatable<T>
         INode<T, U> newNode = _graphComponentRegistry.CreateNode(_graph.GraphData, serializableNode);
         _nodes.Add(newNode);
 
-        if (_roots is not null)
-            if (!newNode.Parents.Any())
-                _roots.Add(newNode);
-
         return newNode;
     }
 }
