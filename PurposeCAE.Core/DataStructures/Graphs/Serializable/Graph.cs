@@ -24,19 +24,15 @@ internal class Graph<T, U> : IGraph<T, U> where T : IEquatable<T>
     public IEnumerable<INode<T, U>> Nodes { get { return _nodes; } }
     private readonly ICollection<INode<T, U>> _nodes = new List<INode<T, U>>();
 
-    public IEnumerable<INode<T, U>> Roots 
-    { 
-        get
-        {
-            if(_roots is null)
-                _roots = GetRootes();
-            return _roots;
-        } 
-    }
-    private ICollection<INode<T, U>>? _roots;
-    private ICollection<INode<T, U>> GetRootes()
+    public IEnumerable<INode<T, U>> GetRoots()
     {
-        throw new NotImplementedException();
+        ICollection<INode<T, U>> roots = new List<INode<T, U>>();
+
+        foreach (INode<T, U> node in _nodes)
+            if (!node.Parents.Any())
+                roots.Add(node);
+
+        return roots;
     }
 
     public INode<T, U> AddNode(T data)
@@ -62,7 +58,7 @@ internal class Graph<T, U> : IGraph<T, U> where T : IEquatable<T>
 
         SerializableEdge<U> newSerializableEdge = _graph.AddEdge(castedSource.SerializableNode, castedTarget.SerializableNode, data);
 
-        Edge<T, U> newEdge = new(_graphComponentRegistry, _graph.GraphData, newSerializableEdge);
+        Edge<T, U> newEdge = new(_graphComponentRegistry, _graph.GraphData, newSerializableEdge, castedSource);
         castedSource.AddChild(newEdge);
 
         // TODO: Implement Add Parent
