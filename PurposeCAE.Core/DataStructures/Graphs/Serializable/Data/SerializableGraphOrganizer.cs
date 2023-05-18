@@ -24,19 +24,12 @@ internal class SerializableGraphOrganizer<T, U> where T : IEquatable<T>
     }
 
     /// <summary>
-    /// Checks if the graph contains a node with the given data. If so, the node is returned.
-    /// Otherwise a new node is created and returned.
+    /// Creates a new node from the data. Does not check if the node already exists.
     /// </summary>
     /// <param name="data">Data which should be stored in the node.</param>
     /// <returns>Created or found node.</returns>
     public SerializableNode<T, U> AddNode(T data)
     {
-        // Check if node already exists
-        foreach (var node in GraphData.Nodes)
-            if (node.Equals(data))
-                return node;
-
-        // Node does not exist, create new node
         SerializableNode<T, U> newNode = new(GraphData.NextFreeUid++, data);
         GraphData.Nodes.Add(newNode);
 
