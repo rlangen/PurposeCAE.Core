@@ -1,4 +1,4 @@
-﻿namespace PurposeCAE.Core.DataStructures.Graphs.Serializable.Registries.Factories;
+﻿namespace PurposeCAE.Core.DataStructures.Graphs.Graphs.Registries.Factories;
 
 internal class GraphComponentRegistryFactory : IGraphComponentRegistryFactory
 {

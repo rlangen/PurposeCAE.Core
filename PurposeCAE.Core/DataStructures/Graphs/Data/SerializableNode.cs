@@ -2,7 +2,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace PurposeCAE.Core.DataStructures.Graphs.Serializable.Data;
+namespace PurposeCAE.Core.DataStructures.Graphs.Data;
 
 internal class SerializableNode<T, U> where T : IEquatable<T>
 {

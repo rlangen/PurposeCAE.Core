@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace PurposeCAE.Core.DataStructures.Graphs.Serializable.Data;
+namespace PurposeCAE.Core.DataStructures.Graphs.Data;
 
 internal class SerializableEdge<U>
 {
