@@ -57,7 +57,7 @@ internal class Graph<T, U> : IGraph<T, U> where T : IEquatable<T>
 
     public INode<T, U> AddNode(T data)
     {
-        return _nodeAdder.AddNode(data, _graphComponentRegistry, _nodes, _graphData);
+        return _nodeAdder.AddNode(data, _graphComponentRegistry, _nodes, _roots, _graphData);
     }
 
     public IEdge<T, U> AddEdge(T source, T target, U data)

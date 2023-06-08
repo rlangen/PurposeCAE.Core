@@ -21,9 +21,9 @@ internal class EdgeAdder : IEdgeAdder
         ) where T : IEquatable<T>
     {
         // Check if source and target nodes are in the graph
-        if (!graphComponentRegistry.NodeStorage.TryGetValue(source, out INode<T, U>? foundSource) || foundSource is null)
+        if (!graphComponentRegistry.TryGetNode(source, out INode<T, U> foundSource))
             throw new ArgumentException("The source node wasn't found while creating an edge. Was the node added before?");
-        if (!graphComponentRegistry.NodeStorage.TryGetValue(target, out INode<T, U>? foundTarget) || foundTarget is null)
+        if (!graphComponentRegistry.TryGetNode(target, out INode<T, U> foundTarget))
             throw new ArgumentException("The target node wasn't found while creating an edge. Was the node added before?");
 
         // Check if the edge already exists

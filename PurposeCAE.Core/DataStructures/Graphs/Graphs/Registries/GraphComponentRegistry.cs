@@ -1,58 +1,56 @@
 ﻿using PurposeCAE.Core.DataStructures.Graphs.Data;
+using PurposeCAE.Core.DataStructures.Graphs.Graphs.Registries.NodeGetters;
 using PurposeCAE.Core.DataStructures.Graphs.Nodes;
 
 namespace PurposeCAE.Core.DataStructures.Graphs.Graphs.Registries;
 
 internal class GraphComponentRegistry<T, U> : IGraphComponentRegistry<T, U> where T : IEquatable<T>
 {
-    public INode<T, U> CreateNode(SerializableGraphData<T, U> graphData, SerializableNode<T, U> node)
+    private readonly IDictionary<T, INode<T, U>> _nodeStorage = new Dictionary<T, INode<T, U>>();
+    private readonly INodeGetter _nodeGetter;
+
+    public GraphComponentRegistry(INodeGetter nodeGetter)
     {
-        if (NodeStorage.TryGetValue(node.Data, out INode<T, U>? foundNode))
-            return foundNode ?? throw new NullReferenceException($"A node was returnedd by the '{nameof(NodeStorage)}' which is null.");
-
-        Node<T, U> newNode = new(node);
-
-        NodeStorage.Add(node.Data, newNode);
-
-        return newNode;
+        _nodeGetter = nodeGetter;
     }
 
+    public INode<T, U> TranslateSerializableNode(SerializableNode<T, U> node)
+    {
+        if (TryGetNode(node.Data, out INode<T, U>? foundNode))
+            return foundNode;
+
+        return CreateNode(node);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="graphData"></param>
+    /// <param name="data"></param>
+    /// <param name="node"></param>
+    /// <returns>True, if the node is already part of the graph. False, if a new node was created.</returns>
     public bool GetOrCreateNode(SerializableGraphData<T, U> graphData, T data, out INode<T, U> node)
     {
-        if (NodeStorage.TryGetValue(data, out INode<T, U>? foundNode))
-        {
-            if (foundNode is null)
-                throw new NullReferenceException($"A node was returnedd by the '{nameof(NodeStorage)}' which is null.");
-
-            node = foundNode;
-
+        if(TryGetNode(data, out node))
             return true;
-        }
 
         SerializableNode<T, U> serializableNode = new(graphData.NextFreeUid++, data);
         graphData.Nodes.Add(serializableNode);
 
-        Node<T, U> newNode = new(serializableNode);
-        NodeStorage.Add(data, newNode);
+        node = CreateNode(serializableNode);
 
-        node = newNode;
-        return true;
+        return false;
     }
 
-    public IDictionary<T, INode<T, U>> NodeStorage { get; } = new Dictionary<T, INode<T, U>>();
-
-
-    public SerializableNode<T, U> GetNode(int uid, SerializableGraphData<T, U> graphData)
+    public bool TryGetNode(T data, out INode<T, U> node)
     {
-        if (_nodeUidStorage is null)
-        {
-            _nodeUidStorage = new Dictionary<int, SerializableNode<T, U>>();
-            foreach (SerializableNode<T, U> node in graphData.Nodes)
-                _nodeUidStorage.Add(node.Uid, node);
-        }
-
-        return _nodeUidStorage[uid];
+        return _nodeGetter.TryGetNode(_nodeStorage, data, out node);
     }
+    private INode<T, U> CreateNode(SerializableNode<T, U> serializableNode)
+    {
+        Node<T, U> newNode = new(serializableNode);
+        _nodeStorage.Add(serializableNode.Data, newNode);
 
-    private IDictionary<int, SerializableNode<T, U>>? _nodeUidStorage;
+        return newNode;
+    }
 }

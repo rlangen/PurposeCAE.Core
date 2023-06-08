@@ -25,7 +25,7 @@ internal class GraphBuilder : IGraphBuilder
         IDictionary<int, INode<T, U>> uidNodePairs = new Dictionary<int, INode<T, U>>();
         foreach (SerializableNode<T, U> node in graphData.Nodes)
         {
-            INode<T, U> translatedNode = graphComponentRegistry.CreateNode(graphData, node);
+            INode<T, U> translatedNode = graphComponentRegistry.TranslateSerializableNode(node);
             nodes.Add(translatedNode);
             uidNodePairs.Add(node.Uid, translatedNode);
         }

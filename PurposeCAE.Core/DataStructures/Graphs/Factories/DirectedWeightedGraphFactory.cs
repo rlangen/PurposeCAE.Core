@@ -7,6 +7,7 @@ using PurposeCAE.Core.DataStructures.Graphs.Graphs.EdgeAdders;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.JsonSerializers;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.NodeAdders;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.Registries.Factories;
+using PurposeCAE.Core.DataStructures.Graphs.Graphs.Registries.NodeGetters;
 using PurposeCAE.Core.Serialization;
 using System.Text.Json;
 
@@ -35,6 +36,9 @@ public class DirectedWeightedGraphFactory : IGraphFactory
             .SingleInstance();
 
         builder.RegisterType<GraphComponentRegistryFactory>().As<IGraphComponentRegistryFactory>()
+            .SingleInstance();
+
+        builder.RegisterType<NodeGetter>().As<INodeGetter>()
             .SingleInstance();
 
         _container = builder.Build();

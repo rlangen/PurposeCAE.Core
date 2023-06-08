@@ -10,6 +10,7 @@ internal class NodeAdder : INodeAdder
             T data,
             IGraphComponentRegistry<T, U> graphComponentRegistry,
             ICollection<INode<T, U>> nodes,
+            ICollection<INode<T, U>> roots,
             SerializableGraphData<T, U> graphData
         ) where T : IEquatable<T>
     {
@@ -19,7 +20,7 @@ internal class NodeAdder : INodeAdder
         nodes.Add(foundOrCreatedNode);
 
         // A new node has no edges, yet. Therefore, it is a root node.
-        nodes.Add(foundOrCreatedNode);
+        roots.Add(foundOrCreatedNode);
 
         return foundOrCreatedNode;
     }
