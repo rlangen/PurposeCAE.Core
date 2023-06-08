@@ -2,19 +2,9 @@
 
 namespace PurposeCAE.Core.Serialization.JsonStringsEqualityCheckers;
 
-/// <summary>
-/// Provides methods to check if two json strings are equal.
-/// All methods work on a text level, so they don't deserialize to specific objects.
-/// </summary>
-public static class JsonStringsEqualityChecker
+internal class JsonStringsEqualityChecker : IJsonStringsEqualityChecker
 {
-    /// <summary>
-    /// Allows to check if two json strings are equal.
-    /// 
-    /// The method doesn't deserialize to specific objects, but to json element types like dictionaries, arrays, strings, numbers, etc.
-    /// If only the orders of items in enumerations and dictionaries differ in the two strings, "true" is still returned.
-    /// </summary>
-    public static bool AreEqual(string json1, string json2)
+    public bool AreEqual(string json1, string json2)
     {
         JsonElement? jsonElement1 = JsonSerializer.Deserialize<JsonElement>(json1);
         JsonElement? jsonElement2 = JsonSerializer.Deserialize<JsonElement>(json2);
@@ -25,7 +15,7 @@ public static class JsonStringsEqualityChecker
         return AreEqual(jsonElement1, jsonElement2);
     }
 
-    private static bool AreEqual(object obj1, object obj2)
+    private bool AreEqual(object obj1, object obj2)
     {
         if (obj1.GetType() != obj2.GetType())
             return false;
