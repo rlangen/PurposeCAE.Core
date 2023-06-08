@@ -22,7 +22,7 @@ internal class Node<T, U> : INode<T, U> where T : IEquatable<T>
     private readonly ICollection<IEdge<T, U>> _children = new List<IEdge<T, U>>();
     public void AddChild(IEdge<T, U> childEdge)
     {
-        Node<T, U> childNode = childEdge.SourceNode as Node<T, U> ?? throw new NotImplementedException();
+        Node<T, U> childNode = childEdge.TargetNode as Node<T, U> ?? throw new NotImplementedException();
         int childNodeUid = childNode.SerializableNode.Uid;
 
         SerializableEdge<U> serializableEdge = new(childEdge.EdgeData, childNodeUid);

@@ -50,4 +50,60 @@ public class AddNodeTests
         // Assert
         Assert.True(jsonStringsEqualityChecker.AreEqual(desiredValue, serializedGraph));
     }
+    [Fact]
+    public void AddNode_TwoNodes_SerializedIsCorrect()
+    {
+        // Arrange
+        NodeData nodeData1 = new("node1");
+        NodeData nodeData2 = new("node2");
+        DirectedWeightedGraphFactory directedWeightedGraphFactory = new();
+
+        IGraph<NodeData, EdgeData> graph = directedWeightedGraphFactory.Create<NodeData, EdgeData>();
+
+        string desiredValue = """
+            {
+                "Nodes": [
+                  {
+                    "Uid": 0,
+                    "Data": {
+                      "Name": "node1"
+                    },
+                    "Children": [
+                      {
+                        "EdgeData": {
+                          "Name": "edgeName"
+                        },
+                        "TargetUid": 1
+                      }
+                    ]
+                  },
+                  {
+                    "Uid": 1,
+                    "Data": {
+                      "Name": "node2"
+                    },
+                    "Children": []
+                  }
+                ],
+                "NextFreeUid": 2
+            }
+            """;
+        JsonStringsEqualityChecker jsonStringsEqualityChecker = new();
+
+        using MemoryStream serializedGraphStream = new();
+        string serializedGraph;
+
+        // Act
+        graph.AddNode(nodeData1);
+        graph.AddNode(nodeData2);
+        graph.AddEdge(nodeData1, nodeData2, new EdgeData("edgeName"));
+
+        graph.Serialize(serializedGraphStream, new NonPolymorphicSerializationSettings());
+        serializedGraphStream.Position = 0;
+        using StreamReader reader = new(serializedGraphStream);
+        serializedGraph = reader.ReadToEnd();
+
+        // Assert
+        Assert.True(jsonStringsEqualityChecker.AreEqual(desiredValue, serializedGraph));
+    }
 }
