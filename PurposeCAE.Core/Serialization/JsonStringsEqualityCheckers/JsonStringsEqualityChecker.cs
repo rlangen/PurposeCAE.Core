@@ -16,13 +16,13 @@ public static class JsonStringsEqualityChecker
     /// </summary>
     public static bool AreEqual(string json1, string json2)
     {
-        Dictionary<string, object>? obj1 = JsonSerializer.Deserialize<Dictionary<string, object>>(json1);
-        Dictionary<string, object>? obj2 = JsonSerializer.Deserialize<Dictionary<string, object>>(json2);
+        JsonElement? jsonElement1 = JsonSerializer.Deserialize<JsonElement>(json1);
+        JsonElement? jsonElement2 = JsonSerializer.Deserialize<JsonElement>(json2);
 
-        if (obj1 is null || obj2 is null)
-            return obj1 is null && obj2 is null;
+        if (jsonElement1 is null || jsonElement2 is null)
+            return jsonElement1 is null && jsonElement2 is null;
 
-        return AreEqual(obj1, obj2);
+        return AreEqual(jsonElement1, jsonElement2);
     }
 
     private static bool AreEqual(object obj1, object obj2)
