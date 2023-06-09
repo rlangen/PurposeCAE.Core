@@ -4,10 +4,8 @@ using PurposeCAE.Core.DataStructures.Graphs.Factories;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs;
 using PurposeCAE.Core.Serialization.JsonStringsEqualityCheckers;
 using PurposeCAE.Core.xTests.TestObjects;
-using System.Reflection;
-using System.Text.Json;
 
-namespace PurposeCAE.Core.PurposeCAE.Core.xTests.Graphs.DirectedWeightedGraphTests;
+namespace PurposeCAE.Core.xTests.IntegrationTests.Graphs.DirectedWeightedGraphTests;
 
 public class AddNodeTests
 {
