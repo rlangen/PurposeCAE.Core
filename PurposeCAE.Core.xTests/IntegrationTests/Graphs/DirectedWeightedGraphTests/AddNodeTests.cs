@@ -104,4 +104,24 @@ public class AddNodeTests
         // Assert
         Assert.True(jsonStringsEqualityChecker.AreEqual(desiredValue, serializedGraph));
     }
+
+    [Fact]
+    public void AddNode_TwoNodesWithSameNodeData_AddOnlyOne()
+    {
+        // Arrange
+        NodeData nodeData1 = new("node");
+        NodeData nodeData2 = new("node");
+
+        DirectedWeightedGraphFactory directedWeightedGraphFactory = new();
+        IGraph<NodeData, EdgeData> graph = directedWeightedGraphFactory.Create<NodeData, EdgeData>();
+
+        // Act
+        INode<NodeData, EdgeData> node1 = graph.AddNode(nodeData1);
+        INode<NodeData, EdgeData> node2 = graph.AddNode(nodeData2);
+
+        // Assert
+        Assert.Single(graph.Nodes);
+        Assert.Equal(node1, node2);
+        Assert.Same(node1, node2);
+    }
 }
