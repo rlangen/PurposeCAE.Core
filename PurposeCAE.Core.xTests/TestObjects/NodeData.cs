@@ -1,5 +1,5 @@
 ﻿using Moq;
-using PurposeCAE.Core.DataStructures;
+using PurposeCAE.Core.DataStructures.Comparison;
 using PurposeCAE.Core.DataStructures.Graphs;
 
 namespace PurposeCAE.Core.xTests.TestObjects;

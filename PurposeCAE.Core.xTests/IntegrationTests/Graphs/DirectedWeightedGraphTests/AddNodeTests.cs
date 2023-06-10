@@ -106,7 +106,7 @@ public class AddNodeTests
     }
 
     [Fact]
-    public void AddNode_TwoNodesWithSameNodeData_AddOnlyOne()
+    public void AddNode_TwoNodesWithSameNodeData_AddOnlyOnce()
     {
         // Arrange
         NodeData nodeData1 = new("node");

@@ -8,6 +8,7 @@ using PurposeCAE.Core.DataStructures.Graphs.Graphs.JsonSerializers;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.NodeAdders;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.Registries.Factories;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.Registries.NodeGetters;
+using PurposeCAE.Core.DataStructures.Graphs.Graphs.SameComparer;
 using PurposeCAE.Core.Serialization;
 using System.Text.Json;
 
@@ -41,6 +42,9 @@ public class DirectedWeightedGraphFactory : IGraphFactory
         builder.RegisterType<NodeGetter>().As<INodeGetter>()
             .SingleInstance();
 
+        builder.RegisterType<BasicGraphSameComparer>().As<IGraphSameComparer>()
+            .SingleInstance();
+
         _container = builder.Build();
     }
 
@@ -51,7 +55,8 @@ public class DirectedWeightedGraphFactory : IGraphFactory
                 _container.Resolve<IGraphComponentRegistryFactory>(),
                 _container.Resolve<INodeAdder>(),
                 _container.Resolve<IEdgeAdder>(),
-                _container.Resolve<IGraphToJsonSerializer>()
+                _container.Resolve<IGraphToJsonSerializer>(),
+                _container.Resolve<IGraphSameComparer>()
             );
     }
 
@@ -72,6 +77,7 @@ public class DirectedWeightedGraphFactory : IGraphFactory
                 _container.Resolve<INodeAdder>(),
                 _container.Resolve<IEdgeAdder>(),
                 _container.Resolve<IGraphToJsonSerializer>(),
+                _container.Resolve<IGraphSameComparer>(),
                 graphData
             );
     }
