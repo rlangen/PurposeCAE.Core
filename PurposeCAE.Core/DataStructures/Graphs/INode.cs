@@ -7,4 +7,5 @@ public interface INode<T, U> where T : IEquatable<T>
     IEnumerable<IEdge<T, U>> Children { get; }
     internal void AddParent(IEdge<T, U> parentEdge);
     internal void AddChild(IEdge<T, U> childEdge);
+    internal void AddChildWithoutSerializableEdgeCreation(IEdge<T, U> childEdge);
 }

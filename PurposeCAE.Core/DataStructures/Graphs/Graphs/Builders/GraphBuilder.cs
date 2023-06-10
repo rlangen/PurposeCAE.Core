@@ -37,7 +37,9 @@ internal class GraphBuilder : IGraphBuilder
             foreach (SerializableEdge<U> edge in node.Children)
             {
                 INode<T, U> childNode = uidNodePairs[edge.TargetUid];
-                _edgeFactory.CreateEdge(parentNode, childNode, edge.EdgeData);
+                IEdge<T, U> newEdge = _edgeFactory.CreateEdge(parentNode, childNode, edge.EdgeData);
+                parentNode.AddChildWithoutSerializableEdgeCreation(newEdge);
+                childNode.AddParent(newEdge);
             }
         }
 

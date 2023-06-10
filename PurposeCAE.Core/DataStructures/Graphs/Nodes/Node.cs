@@ -30,6 +30,10 @@ internal class Node<T, U> : INode<T, U> where T : IEquatable<T>
 
         _children.Add(childEdge);
     }
+    public void AddChildWithoutSerializableEdgeCreation(IEdge<T, U> childEdge)
+    {
+        _children.Add(childEdge);
+    }
 
     internal SerializableNode<T, U> SerializableNode { get; }
 }
