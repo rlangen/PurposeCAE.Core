@@ -10,9 +10,6 @@ internal class Edge<T, U> : IEdge<T, U> where T : IEquatable<T>
         SourceNode = sourceNode;
         TargetNode = targetNode;
         EdgeData = edgeData;
-
-        SourceNode.AddChild(this);
-        TargetNode.AddParent(this);
     }
     public U EdgeData { get; }
 

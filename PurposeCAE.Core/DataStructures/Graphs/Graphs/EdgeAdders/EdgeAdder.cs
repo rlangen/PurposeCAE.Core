@@ -33,6 +33,8 @@ internal class EdgeAdder : IEdgeAdder
 
         // A new edge object needs to be created
         IEdge<T, U> newEdge = _edgeFactory.CreateEdge(foundSource, foundTarget, data);
+        foundSource.AddChild(newEdge);
+        foundTarget.AddParent(newEdge);
 
         // The edge points to the target node, now. Therefore, the target node can't be a root node anymore.
         if (roots.Contains(foundTarget))
