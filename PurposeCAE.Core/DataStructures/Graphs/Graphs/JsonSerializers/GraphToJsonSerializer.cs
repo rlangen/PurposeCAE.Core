@@ -6,6 +6,7 @@ namespace PurposeCAE.Core.DataStructures.Graphs.Graphs.JsonSerializers;
 
 internal class GraphToJsonSerializer : IGraphToJsonSerializer
 {
+    // TODO: Implement tests for polymorphic types
     public void Serialize<T, U>
         (
             Stream stream,

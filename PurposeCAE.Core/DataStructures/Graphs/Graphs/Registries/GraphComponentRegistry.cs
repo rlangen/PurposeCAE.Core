@@ -4,6 +4,7 @@ using PurposeCAE.Core.DataStructures.Graphs.Nodes;
 
 namespace PurposeCAE.Core.DataStructures.Graphs.Graphs.Registries;
 
+// TODO: Implement tests to guarantee functionality and performance
 internal class GraphComponentRegistry<T, U> : IGraphComponentRegistry<T, U> where T : IEquatable<T>
 {
     private readonly IDictionary<T, INode<T, U>> _nodeStorage = new Dictionary<T, INode<T, U>>();
