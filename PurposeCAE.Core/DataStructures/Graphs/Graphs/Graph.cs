@@ -3,6 +3,7 @@ using PurposeCAE.Core.DataStructures.Graphs.Graphs.Builders;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.EdgeAdders;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.JsonSerializers;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.NodeAdders;
+using PurposeCAE.Core.DataStructures.Graphs.Graphs.NodeRemovers;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.Registries;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.Registries.Factories;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.SameComparer;
@@ -13,6 +14,7 @@ namespace PurposeCAE.Core.DataStructures.Graphs.Graphs;
 internal class Graph<T, U> : IGraph<T, U> where T : IEquatable<T>
 {
     private readonly INodeAdder _nodeAdder;
+    private readonly INodeRemover _nodeRemover;
     private readonly IEdgeAdder _edgeAdder;
     private readonly IGraphToJsonSerializer _graphToJsonSerializer;
     private readonly IGraphSameComparer _graphSameComparer;
@@ -24,6 +26,7 @@ internal class Graph<T, U> : IGraph<T, U> where T : IEquatable<T>
         (
             IGraphComponentRegistryFactory graphComponentRegistryFactory,
             INodeAdder nodeAdder,
+            INodeRemover nodeRemover,
             IEdgeAdder edgeAdder,
             IGraphToJsonSerializer graphToJsonSerializer,
             IGraphSameComparer graphSameComparer
@@ -31,6 +34,7 @@ internal class Graph<T, U> : IGraph<T, U> where T : IEquatable<T>
     {
         _graphComponentRegistry = graphComponentRegistryFactory.Create<T, U>();
         _nodeAdder = nodeAdder;
+        _nodeRemover = nodeRemover;
         _edgeAdder = edgeAdder;
         _graphToJsonSerializer = graphToJsonSerializer;
         _graphSameComparer = graphSameComparer;
@@ -41,12 +45,13 @@ internal class Graph<T, U> : IGraph<T, U> where T : IEquatable<T>
             IGraphComponentRegistryFactory graphComponentRegistryFactory,
             IGraphBuilder graphBuilder,
             INodeAdder nodeAdder,
+            INodeRemover nodeRemover,
             IEdgeAdder edgeAdder,
             IGraphToJsonSerializer graphToJsonSerializer,
             IGraphSameComparer graphSameComparer,
             SerializableGraphData<T, U> graphData
         ) 
-        : this(graphComponentRegistryFactory, nodeAdder, edgeAdder, graphToJsonSerializer, graphSameComparer)
+        : this(graphComponentRegistryFactory, nodeAdder, nodeRemover, edgeAdder, graphToJsonSerializer, graphSameComparer)
     {
         _graphSameComparer = graphSameComparer;
         _graphData = graphData;
@@ -79,5 +84,10 @@ internal class Graph<T, U> : IGraph<T, U> where T : IEquatable<T>
     public bool IsSameAs(IGraph<T, U> otherGraph)
     {
         return _graphSameComparer.IsSameAs(this, otherGraph);
+    }
+
+    public void RemoveNode(T data)
+    {
+        _nodeRemover.RemoveNode(data, _graphComponentRegistry, _nodes, _roots, _graphData);
     }
 }

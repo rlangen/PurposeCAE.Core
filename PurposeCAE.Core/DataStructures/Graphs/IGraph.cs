@@ -8,6 +8,7 @@ public interface IGraph<T, U> where T : IEquatable<T>
     IEnumerable<INode<T, U>> Roots { get; }
     INode<T, U> AddNode(T data);
     IEdge<T, U> AddEdge(T source, T target, U data);
+    void RemoveNode(T data);
     void Serialize(Stream stream, IJsonSerializationSettings serializationSettings);
 
     /// <summary>

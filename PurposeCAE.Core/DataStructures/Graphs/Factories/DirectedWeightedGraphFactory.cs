@@ -6,6 +6,7 @@ using PurposeCAE.Core.DataStructures.Graphs.Graphs.Builders;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.EdgeAdders;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.JsonSerializers;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.NodeAdders;
+using PurposeCAE.Core.DataStructures.Graphs.Graphs.NodeRemovers;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.Registries.Factories;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.Registries.NodeGetters;
 using PurposeCAE.Core.DataStructures.Graphs.Graphs.SameComparer;
@@ -35,6 +36,8 @@ public class DirectedWeightedGraphFactory : IGraphFactory
 
         builder.RegisterType<NodeAdder>().As<INodeAdder>()
             .SingleInstance();
+        builder.RegisterType<NodeRemover>().As<INodeRemover>()
+            .SingleInstance();
 
         builder.RegisterType<GraphComponentRegistryFactory>().As<IGraphComponentRegistryFactory>()
             .SingleInstance();
@@ -54,6 +57,7 @@ public class DirectedWeightedGraphFactory : IGraphFactory
             (
                 _container.Resolve<IGraphComponentRegistryFactory>(),
                 _container.Resolve<INodeAdder>(),
+                _container.Resolve<INodeRemover>(),
                 _container.Resolve<IEdgeAdder>(),
                 _container.Resolve<IGraphToJsonSerializer>(),
                 _container.Resolve<IGraphSameComparer>()
@@ -75,6 +79,7 @@ public class DirectedWeightedGraphFactory : IGraphFactory
                 _container.Resolve<IGraphComponentRegistryFactory>(),
                 _container.Resolve<IGraphBuilder>(),
                 _container.Resolve<INodeAdder>(),
+                _container.Resolve<INodeRemover>(),
                 _container.Resolve<IEdgeAdder>(),
                 _container.Resolve<IGraphToJsonSerializer>(),
                 _container.Resolve<IGraphSameComparer>(),

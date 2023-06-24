@@ -54,4 +54,14 @@ internal class GraphComponentRegistry<T, U> : IGraphComponentRegistry<T, U> wher
 
         return newNode;
     }
+    /// <summary>
+    /// Removes a node from the registry. It doesn't influance the graph or its data substructure.
+    /// </summary>
+    /// <param name="data">The key for node which should be removed.</param>
+    /// <exception cref="ArgumentException">Occurs when there is no node registered with the <paramref name="data"/> key.</exception>
+    public void RemoveNode(T data)
+    {
+        if (!_nodeStorage.Remove(data))
+            throw new ArgumentException($"The node with the data '{data}' is not part of the graph.");
+    }
 }
