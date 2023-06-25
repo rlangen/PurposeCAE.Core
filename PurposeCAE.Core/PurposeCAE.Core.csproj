@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>0.0.2</Version>
+    <Version>0.1.0</Version>
     <VersionSuffix>-rc01</VersionSuffix>
     <ProjectName>$(AssemblyName)</ProjectName>
     <TargetFramework>net7.0</TargetFramework>
