@@ -78,6 +78,7 @@ internal class BasicGraphSameComparer : IGraphSameComparer
 
                     // TODO: Check edge data.
                     // The edge data should be checked memberwise, because the data type may not implement IEquatable.
+                    // Use System.Reflection for this.
 
                     break;
                 }
